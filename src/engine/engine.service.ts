@@ -2,8 +2,16 @@ import { Injectable, Logger } from '@nestjs/common';
 import { randomUUID } from 'crypto';
 
 import { GeoObject } from '../geo/geo.types';
-import { BOUNDS, random, clamp, calcDirection } from '../geo/geo.utils';
+import { random, clamp, calcDirection } from '../geo/geo.utils';
 import { EngineState, EngineStatus } from './engine.types';
+import {
+  BOUNDS,
+  MAX_NUMB_POINTS,
+  MIN_NUMB_POINTS,
+  NUMBER_OF_ADDED_ELEMENTS,
+  NUMBER_OF_REMOVED_ELEMENTS,
+  PERCENT_OF_CHANGES,
+} from '../constatns';
 
 @Injectable()
 export class EngineService {
@@ -22,7 +30,7 @@ export class EngineService {
   private watchdogTimer?: NodeJS.Timeout;
 
   // ===== CONFIG =====
-  private readonly STEP = 0.00015;
+  private readonly STEP = 0.0002;
   private readonly MAX_SESSION_MS = 15 * 60 * 1000; // 15 minutes
 
   // =========================================================
@@ -80,7 +88,7 @@ export class EngineService {
   // =========================================================
 
   private initObjects() {
-    const count = Math.floor(random(100, 200));
+    const count = Math.floor(random(MIN_NUMB_POINTS, MAX_NUMB_POINTS));
     for (let i = 0; i < count; i++) {
       this.addObject();
     }
@@ -127,7 +135,7 @@ export class EngineService {
     const arr = Array.from(this.objects.values());
     if (!arr.length) return;
 
-    const moveCount = Math.floor(arr.length * 0.6);
+    const moveCount = Math.floor(arr.length * PERCENT_OF_CHANGES);
 
     for (let i = 0; i < moveCount; i++) {
       const o = arr[Math.floor(Math.random() * arr.length)];
@@ -152,7 +160,7 @@ export class EngineService {
   }
 
   private removeObjects() {
-    const count = Math.floor(random(1, 5));
+    const count = Math.floor(random(1, NUMBER_OF_REMOVED_ELEMENTS));
     const keys = Array.from(this.objects.keys());
 
     for (let i = 0; i < count && keys.length; i++) {
@@ -164,7 +172,7 @@ export class EngineService {
   }
 
   private addObjects() {
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < NUMBER_OF_ADDED_ELEMENTS; i++) {
       this.addObject();
     }
   }
