@@ -7,7 +7,7 @@ export class AuthService {
 
   generateToken() {
     this.token = randomUUID();
-    return { token: this.token };
+    return { accessToken: this.token };
   }
 
   validate(token?: string) {

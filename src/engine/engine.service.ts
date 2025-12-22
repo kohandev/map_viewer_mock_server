@@ -23,7 +23,7 @@ export class EngineService {
 
   // ===== CONFIG =====
   private readonly STEP = 0.00015;
-  private readonly MAX_SESSION_MS = 3 * 60 * 1000; // 3 minutes
+  private readonly MAX_SESSION_MS = 15 * 60 * 1000; // 15 minutes
 
   // =========================================================
   // PUBLIC API
@@ -104,7 +104,7 @@ export class EngineService {
 
     this.addTimer = setInterval(() => this.addObjects(), 5000);
 
-    // watchdog — принудительная остановка
+    // watchdog — forced stop
     this.watchdogTimer = setTimeout(() => {
       this.logger.warn('Watchdog timeout reached');
       this.stop(true);

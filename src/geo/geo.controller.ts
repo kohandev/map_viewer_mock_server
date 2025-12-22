@@ -9,9 +9,6 @@ export class GeoController {
 
   @Get()
   getObjects() {
-    return {
-      status: this.geo.getStatus().status,
-      data: this.geo.getObjects(),
-    };
+    return this.geo.getObjects();
   }
 }

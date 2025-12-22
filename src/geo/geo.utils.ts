@@ -1,8 +1,8 @@
 export const BOUNDS = {
-  minLat: 50.0,
-  maxLat: 50.5,
-  minLng: 30.0,
-  maxLng: 30.7,
+  minLat: 47.65,
+  maxLat: 47.80,
+  minLng: 37.45,
+  maxLng: 37.90,
 };
 
 export const random = (min: number, max: number) =>
